@@ -7,7 +7,7 @@
     body { font-family: sans-serif; text-align: center; margin-top: 100px; }
     input, button { font-size: 18px; padding: 10px; }
     #qr { margin-top: 30px; }
-    canvas { margin-top: 10px; }
+    img { margin-top: 10px; width: 200px; height: 200px; }
   </style>
 </head>
 <body>
@@ -19,29 +19,30 @@
   <script>
     function generateQR() {
       const container = document.getElementById('qr');
-      container.innerHTML = ""; // Clear previous content
+      container.innerHTML = ""; // Clear previous
 
       const input = document.getElementById('riderId').value.trim().toUpperCase();
 
-      if (input.startsWith("FE") && input.length > 2) {
+      if (input.startsWith("FE")) {
         const num = parseInt(input.substring(2));
         if (!isNaN(num)) {
           const finalId = num - 10000;
           const url = `https://zriderapp.onelink.me/Ud2g/3di4xgi0?id=${finalId}`;
 
-          // Show the generated link
+          // Show link
           const link = document.createElement("p");
           link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
           container.appendChild(link);
 
-          // Generate and attach QR code
-          const canvas = document.createElement("canvas");
-          QRCode.toCanvas(canvas, url, function (err) {
+          // Generate QR as Data URL (image)
+          QRCode.toDataURL(url, { width: 200 }, function (err, urlImg) {
             if (err) {
               container.innerHTML += "<p>Error generating QR code.</p>";
               return;
             }
-            container.appendChild(canvas);
+            const img = document.createElement("img");
+            img.src = urlImg;
+            container.appendChild(img);
           });
 
           return;
