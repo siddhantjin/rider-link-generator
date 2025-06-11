@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Rider Link Generator</title>
+  <title>Comeback Link Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
     body { font-family: sans-serif; text-align: center; margin-top: 100px; }
     input, button { font-size: 18px; padding: 10px; }
-    #result { margin-top: 30px; font-size: 20px; color: green; }
+    #qr { margin-top: 30px; }
+    canvas { margin-top: 10px; }
   </style>
 </head>
 <body>
   <h2>Enter Your FE ID (e.g., FE99999)</h2>
   <input type="text" id="riderId" placeholder="FE99999" />
-  <button onclick="generateLink()">Generate Link</button>
-  <div id="result"></div>
+  <button onclick="generateQR()">Generate QR</button>
+  <div id="qr"></div>
 
   <script>
-    function generateLink() {
+    function generateQR() {
+      const container = document.getElementById('qr');
+      container.innerHTML = ""; // Clear previous QR
       const input = document.getElementById('riderId').value.trim().toUpperCase();
+
       if (input.startsWith("FE")) {
         const num = parseInt(input.substring(2));
         if (!isNaN(num)) {
-          const final = num - 10000;
-          const url = `https://zriderapp.onelink.me/Ud2g/3di4xgi0?id=${final}`;
-          document.getElementById('result').innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+          const finalId = num - 10000;
+          const url = `https://zriderapp.onelink.me/Ud2g/3di4xgi0?id=${finalId}`;
+
+          // Optional: show the actual link
+          const link = document.createElement("p");
+          link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+          container.appendChild(link);
+
+          // Generate QR
+          QRCode.toCanvas(document.createElement('canvas'), url, function (err, canvas) {
+            if (err) {
+              container.innerHTML = "Error generating QR code.";
+              return;
+            }
+            container.appendChild(canvas);
+          });
           return;
         }
       }
-      document.getElementById('result').textContent = "Please enter a valid FE ID like FE99999.";
+
+      container.textContent = "Please enter a valid FE ID like FE99999.";
     }
   </script>
 </body>
