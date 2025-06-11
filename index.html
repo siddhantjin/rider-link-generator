@@ -2,9 +2,32 @@
 <html>
 <head>
   <title>Rider Link Generator</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 100px; }
+    input, button { font-size: 18px; padding: 10px; }
+    #result { margin-top: 30px; font-size: 20px; color: green; }
+  </style>
 </head>
 <body>
-  <h1>Welcome Rider</h1>
-  <p>This page will show your custom link soon!</p>
+  <h2>Enter Your FE ID (e.g., FE99999)</h2>
+  <input type="text" id="riderId" placeholder="FE99999" />
+  <button onclick="generateLink()">Generate Link</button>
+  <div id="result"></div>
+
+  <script>
+    function generateLink() {
+      const input = document.getElementById('riderId').value.trim().toUpperCase();
+      if (input.startsWith("FE")) {
+        const num = parseInt(input.substring(2));
+        if (!isNaN(num)) {
+          const final = num - 10000;
+          const url = `http://issue_tips?sub_issue_id=1249&sub_issue_secondary_id=${final}`;
+          document.getElementById('result').innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+          return;
+        }
+      }
+      document.getElementById('result').textContent = "Please enter a valid FE ID like FE99999.";
+    }
+  </script>
 </body>
 </html>
