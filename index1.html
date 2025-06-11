@@ -2,25 +2,23 @@
 <html>
 <head>
   <title>Comeback Link Generator</title>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
     body { font-family: sans-serif; text-align: center; margin-top: 100px; }
     input, button { font-size: 18px; padding: 10px; margin: 5px; }
-    #qr { margin-top: 30px; }
-    #copySection { margin-top: 20px; }
-    img { margin-top: 10px; width: 200px; height: 200px; }
+    #output { margin-top: 30px; }
     .copy-input { width: 70%; font-size: 16px; padding: 8px; }
   </style>
 </head>
 <body>
   <h2>Enter Your FE ID (e.g., FE99999)</h2>
   <input type="text" id="riderId" placeholder="FE99999" />
-  <button onclick="generateQR()">Generate QR</button>
-  <div id="qr"></div>
+  <button onclick="generateLink()">Generate Link</button>
+
+  <div id="output"></div>
 
   <script>
-    function generateQR() {
-      const container = document.getElementById('qr');
+    function generateLink() {
+      const container = document.getElementById('output');
       container.innerHTML = ""; // Clear previous
 
       const input = document.getElementById('riderId').value.trim().toUpperCase();
@@ -33,23 +31,11 @@
 
           // Show copyable input
           const copyDiv = document.createElement("div");
-          copyDiv.id = "copySection";
           copyDiv.innerHTML = `
             <input type="text" id="copyLink" class="copy-input" value="${url}" readonly />
             <button onclick="copyToClipboard()">Copy Link</button>
           `;
           container.appendChild(copyDiv);
-
-          // Generate QR code image
-          QRCode.toDataURL(url, { width: 200 }, function (err, urlImg) {
-            if (err) {
-              container.innerHTML += "<p>Error generating QR code.</p>";
-              return;
-            }
-            const img = document.createElement("img");
-            img.src = urlImg;
-            container.appendChild(img);
-          });
 
           return;
         }
