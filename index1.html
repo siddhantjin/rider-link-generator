@@ -23,21 +23,21 @@
 
       const input = document.getElementById('riderId').value.trim().toUpperCase();
 
-      if (input.startsWith("FE")) {
+      if (input.startsWith("FE") && input.length > 2) {
         const num = parseInt(input.substring(2));
         if (!isNaN(num)) {
           const finalId = num - 10000;
           const url = `https://zriderapp.onelink.me/Ud2g/3di4xgi0?id=${finalId}`;
 
-          // Show the link
+          // Show the generated link
           const link = document.createElement("p");
           link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
           container.appendChild(link);
 
-          // Generate QR and append
+          // Generate and attach QR code
           const canvas = document.createElement("canvas");
-          QRCode.toCanvas(canvas, url, function (error) {
-            if (error) {
+          QRCode.toCanvas(canvas, url, function (err) {
+            if (err) {
               container.innerHTML += "<p>Error generating QR code.</p>";
               return;
             }
