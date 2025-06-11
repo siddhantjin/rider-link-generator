@@ -10,19 +10,22 @@
   </style>
 </head>
 <body>
-  <h2>Enter Rider ID to get your custom link</h2>
-  <input type="text" id="riderInput" placeholder="e.g. 24567" />
+  <h2>Enter Your Rider ID (e.g. FE99999)</h2>
+  <input type="text" id="riderInput" placeholder="e.g. FE99999" />
   <button onclick="generate()">Get Link</button>
   <p id="linkOutput"></p>
 
   <script>
     function generate() {
-      const id = document.getElementById('riderInput').value.trim();
-      if (id) {
-        const link = `http://issue_tips?sub_issue_id=1249&sub_issue_secondary_id=${id}`;
-        document.getElementById('linkOutput').innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
+      const input = document.getElementById('riderInput').value.trim().toUpperCase();
+      
+      // Check and extract numeric part
+      if (input.startsWith("FE") && !isNaN(input.slice(2))) {
+        const number = parseInt(input.slice(2), 10) - 10000;
+        const finalLink = `http://issue_tips?sub_issue_id=1249&sub_issue_secondary_id=${number}`;
+        document.getElementById('linkOutput').innerHTML = `<a href="${finalLink}" target="_blank">${finalLink}</a>`;
       } else {
-        document.getElementById('linkOutput').innerText = 'Please enter a Rider ID.';
+        document.getElementById('linkOutput').innerText = "Please enter a valid ID like FE99999.";
       }
     }
   </script>
