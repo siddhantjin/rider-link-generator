@@ -19,7 +19,8 @@
   <script>
     function generateQR() {
       const container = document.getElementById('qr');
-      container.innerHTML = ""; // Clear previous QR
+      container.innerHTML = ""; // Clear previous content
+
       const input = document.getElementById('riderId').value.trim().toUpperCase();
 
       if (input.startsWith("FE")) {
@@ -28,16 +29,16 @@
           const finalId = num - 10000;
           const url = `https://zriderapp.onelink.me/Ud2g/3di4xgi0?id=${finalId}`;
 
-          // Show the generated link
+          // Show the link
           const link = document.createElement("p");
           link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
           container.appendChild(link);
 
-          // Generate and append QR Code
-          const canvas = document.createElement('canvas');
-          QRCode.toCanvas(canvas, url, function (err) {
-            if (err) {
-              container.innerHTML += "<br>Error generating QR code.";
+          // Generate QR and append
+          const canvas = document.createElement("canvas");
+          QRCode.toCanvas(canvas, url, function (error) {
+            if (error) {
+              container.innerHTML += "<p>Error generating QR code.</p>";
               return;
             }
             container.appendChild(canvas);
