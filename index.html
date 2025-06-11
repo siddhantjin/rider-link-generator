@@ -28,19 +28,21 @@
           const finalId = num - 10000;
           const url = `https://zriderapp.onelink.me/Ud2g/3di4xgi0?id=${finalId}`;
 
-          // Optional: show the actual link
+          // Show the generated link
           const link = document.createElement("p");
           link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
           container.appendChild(link);
 
-          // Generate QR
-          QRCode.toCanvas(document.createElement('canvas'), url, function (err, canvas) {
+          // Generate and append QR Code
+          const canvas = document.createElement('canvas');
+          QRCode.toCanvas(canvas, url, function (err) {
             if (err) {
-              container.innerHTML = "Error generating QR code.";
+              container.innerHTML += "<br>Error generating QR code.";
               return;
             }
             container.appendChild(canvas);
           });
+
           return;
         }
       }
