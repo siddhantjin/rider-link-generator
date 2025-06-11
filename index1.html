@@ -5,9 +5,11 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
     body { font-family: sans-serif; text-align: center; margin-top: 100px; }
-    input, button { font-size: 18px; padding: 10px; }
+    input, button { font-size: 18px; padding: 10px; margin: 5px; }
     #qr { margin-top: 30px; }
+    #copySection { margin-top: 20px; }
     img { margin-top: 10px; width: 200px; height: 200px; }
+    .copy-input { width: 70%; font-size: 16px; padding: 8px; }
   </style>
 </head>
 <body>
@@ -29,12 +31,16 @@
           const finalId = num - 10000;
           const url = `https://zriderapp.onelink.me/Ud2g/3di4xgi0?id=${finalId}`;
 
-          // Show link
-          const link = document.createElement("p");
-          link.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
-          container.appendChild(link);
+          // Show copyable input
+          const copyDiv = document.createElement("div");
+          copyDiv.id = "copySection";
+          copyDiv.innerHTML = `
+            <input type="text" id="copyLink" class="copy-input" value="${url}" readonly />
+            <button onclick="copyToClipboard()">Copy Link</button>
+          `;
+          container.appendChild(copyDiv);
 
-          // Generate QR as Data URL (image)
+          // Generate QR code image
           QRCode.toDataURL(url, { width: 200 }, function (err, urlImg) {
             if (err) {
               container.innerHTML += "<p>Error generating QR code.</p>";
@@ -50,6 +56,14 @@
       }
 
       container.textContent = "Please enter a valid FE ID like FE99999.";
+    }
+
+    function copyToClipboard() {
+      const input = document.getElementById("copyLink");
+      input.select();
+      input.setSelectionRange(0, 99999); // For mobile
+      document.execCommand("copy");
+      alert("Link copied to clipboard!");
     }
   </script>
 </body>
