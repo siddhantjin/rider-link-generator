@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rider Link Generator</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 80px; }
+    input { padding: 8px; font-size: 16px; }
+    button { padding: 8px 16px; font-size: 16px; margin-left: 8px; }
+    #linkOutput { margin-top: 20px; font-size: 18px; color: green; }
+  </style>
+</head>
+<body>
+  <h2>Enter Rider ID to get your custom link</h2>
+  <input type="text" id="riderInput" placeholder="e.g. 24567" />
+  <button onclick="generate()">Get Link</button>
+  <p id="linkOutput"></p>
+
+  <script>
+    function generate() {
+      const id = document.getElementById('riderInput').value.trim();
+      if (id) {
+        const link = `http://issue_tips?sub_issue_id=1249&sub_issue_secondary_id=${id}`;
+        document.getElementById('linkOutput').innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
+      } else {
+        document.getElementById('linkOutput').innerText = 'Please enter a Rider ID.';
+      }
+    }
+  </script>
+</body>
+</html>
